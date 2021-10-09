@@ -66,16 +66,22 @@ ball.inst_speed()
 def ping_pong():
     if pygame.sprite.collide_rect(rct_l, ball):
         ball.Speed_x = random.uniform(3, 5)
+        ball.Speed_y = random.uniform(-4, 4)
+        '''
         if random.random() > 0.5:
             ball.Speed_y *= -1
         else:
             ball.Speed_y *= 1
+        '''
     if pygame.sprite.collide_rect(rct_r, ball):
         ball.Speed_x = -random.uniform(3, 5)
+        ball.Speed_y = random.uniform(-4, 4)
+        '''
         if random.random() > 0.5:
             ball.Speed_y *= -1
         else:
             ball.Speed_y *= 1
+        '''
 
 game = True
 
@@ -85,7 +91,7 @@ while game:
         if e.type == pygame.QUIT:
             game = False
 
-    ping_pong(a)
+    ping_pong()
 
     if game:
         mw.fill((0,255,0))
