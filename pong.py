@@ -36,12 +36,27 @@ class Rockets(Sprite):
         if key_[pygame.K_DOWN] and self.rect.y < mw_h - 106:
             self.rect.y += self.speed
 
+class Ball(Sprite):
+
+    def inst_speed(self):
+        self.Speed_x = self.speed
+        self.Speed_y = self.speed
+
+    def move(self):
+        self.rect.x += self.Speed_x
+        self.rect.y += self.Speed_y
+        if self.rect.x > mw_w - 26 or self.rect.x < 0:
+            self.Speed_x *= -1 
+        if self.rect.y > mw_h - 26 or self.rect.y < 0:
+            self.Speed_y *= -1 
+
 
 rct_l = Rockets('rc.png', 5, 0, 16, 106, 3)
 rct_r = Rockets('rc.png', mw_w - 20, 0, 16, 106, 3)
+ball = Ball('ball.png', 10, 50, 26, 26, 4)
 
 game = True
-
+ball.inst_speed()
 while game:
 
     for e in pygame.event.get():
@@ -52,9 +67,11 @@ while game:
         mw.fill((0,255,0))
         rct_l.rocket_l()
         rct_r.rocket_r()
+        ball.move()
 
     rct_l.reset()
     rct_r.reset()
+    ball.reset()
 
     pygame.display.update()
     clock.tick(FPS)
