@@ -1,4 +1,5 @@
 import pygame
+import random
 pygame.init()
 
 mw_w = 500
@@ -9,8 +10,8 @@ mw.fill((0,255,0))
 clock = pygame.time.Clock()
 FPS = 60
 
-class Sprite:
-    def __init__(self, image_name, x, y, width, hight, speed):
+class Sprite():
+    def __init__(self, image_name, x, y, width, hight, speed = 4):
         self.image = pygame.transform.scale(
             pygame.image.load(image_name), (width, hight))
         self.rect = self.image.get_rect()
@@ -41,22 +42,43 @@ class Ball(Sprite):
     def inst_speed(self):
         self.Speed_x = self.speed
         self.Speed_y = self.speed
+    
+    def pong_x(self):
+        if self.rect.x > mw_w - 26:
+            self.Speed_x = random.uniform(3.5, 5.5) * -1
+        elif self.rect.x < 0:
+            self.Speed_x = random.uniform(3.0, 5.5)
 
     def move(self):
         self.rect.x += self.Speed_x
         self.rect.y += self.Speed_y
-        if self.rect.x > mw_w - 26 or self.rect.x < 0:
-            self.Speed_x *= -1 
-        if self.rect.y > mw_h - 26 or self.rect.y < 0:
-            self.Speed_y *= -1 
 
+        if self.rect.y > mw_h - 26: 
+            self.Speed_y = random.uniform(3.0, 5.5) * -1
+        elif self.rect.y < 0:
+            self.Speed_y = random.uniform(3.0, 5.5)
 
-rct_l = Rockets('rc.png', 5, 0, 16, 106, 3)
-rct_r = Rockets('rc.png', mw_w - 20, 0, 16, 106, 3)
+rct_l = Rockets('rc.png', 5, 0, 16, 106)
+rct_r = Rockets('rc.png', mw_w - 20, 0, 16, 106)
 ball = Ball('ball.png', 10, 50, 26, 26, 4)
+ball.inst_speed()
+
+def ping_pong():
+    if pygame.sprite.collide_rect(rct_l, ball):
+        ball.Speed_x = random.uniform(3, 5)
+        if random.random() > 0.5:
+            ball.Speed_y *= -1
+        else:
+            ball.Speed_y *= 1
+    if pygame.sprite.collide_rect(rct_r, ball):
+        ball.Speed_x = -random.uniform(3, 5)
+        if random.random() > 0.5:
+            ball.Speed_y *= -1
+        else:
+            ball.Speed_y *= 1
 
 game = True
-ball.inst_speed()
+
 while game:
 
     for e in pygame.event.get():
@@ -68,6 +90,7 @@ while game:
         rct_l.rocket_l()
         rct_r.rocket_r()
         ball.move()
+        ball.pong_x()
 
     rct_l.reset()
     rct_r.reset()
