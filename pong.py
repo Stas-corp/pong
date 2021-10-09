@@ -85,6 +85,8 @@ while game:
         if e.type == pygame.QUIT:
             game = False
 
+    ping_pong(a)
+
     if game:
         mw.fill((0,255,0))
         rct_l.rocket_l()
