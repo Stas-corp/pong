@@ -1,79 +1,60 @@
-from pygame import *
+import pygame
+pygame.init()
 
+mw_w = 500
+mw_h = 500
 
-
-mw_width = 500
-mw_hieght = 500
-
-mw = display.set_mode((mw_width, mw_hieght))
+mw = pygame.display.set_mode((mw_w, mw_h))
 mw.fill((0,255,0))
-
-clock = time.Clock()
+clock = pygame.time.Clock()
 FPS = 60
 
-
-class Sprite():
-    def __init__(self, image_name, cor_x, cor_y, width, hieght, speed = 0):
-        self.image = transform.scale(image.load(image_name), (width, hieght))
+class Sprite:
+    def __init__(self, image_name, x, y, width, hight, speed):
+        self.image = pygame.transform.scale(
+            pygame.image.load(image_name), (width, hight))
         self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
         self.speed = speed
-        self.rect.x = cor_x
-        self.rect.y = cor_y
-    
-    def draw(self):
+
+    def reset(self):
         mw.blit(self.image, (self.rect.x, self.rect.y))
 
-    def collide(self, obj):
-        self.rect.colliderect(obj)
-    
-class Rocket(Sprite):
+class Rockets(Sprite):
     def rocket_l(self):
-        key_ = key.get_pressed()
-        if key_[K_w]:
+        key_ = pygame.key.get_pressed()
+        if key_[pygame.K_w] and self.rect.y > 0:
             self.rect.y -= self.speed
-        if key_[K_s]:
+        if key_[pygame.K_s] and self.rect.y < mw_h - 106:
             self.rect.y += self.speed
 
     def rocket_r(self):
-        key_ = key.get_pressed()
-        if key_[K_UP]:
+        key_ = pygame.key.get_pressed()
+        if key_[pygame.K_UP] and self.rect.y > 0:
             self.rect.y -= self.speed
-        if key_[K_DOWN]:
+        if key_[pygame.K_DOWN] and self.rect.y < mw_h - 106:
             self.rect.y += self.speed
 
-class Ball(Sprite):
-    def __init__(self, image_name, cor_x, cor_y, width, hieght, speed_x, speed_y):
-        super().__init__(self, image_name, cor_x, cor_y, width, hieght)
-        self.speed_x = speed_x
-        self.speed_y = speed_y
-    def move(self):
-        self.rect.x += self.speed_x
-        self.rect.y += self.speed_y
 
-
-
-a = Rocket('rc.png', 5,0, 16, 100, 4)
-b = Rocket('rc.png', 475,0, 16, 100, 4)
-ball = Ball('ball.png', 250, 250, 26,26, 3, 3)
+rct_l = Rockets('rc.png', 5, 0, 16, 106, 3)
+rct_r = Rockets('rc.png', mw_w - 20, 0, 16, 106, 3)
 
 game = True
+
 while game:
-    for e in event.get():
-        if e.type == QUIT:
+
+    for e in pygame.event.get():
+        if e.type == pygame.QUIT:
             game = False
 
     if game:
         mw.fill((0,255,0))
-        a.rocket_l()
-        b.rocket_r()
-        ball.move()
-    
-    if ball.collide(a):
-        ball.speed_x *= -1
+        rct_l.rocket_l()
+        rct_r.rocket_r()
 
-    a.draw()
-    b.draw()
-    ball.draw()
+    rct_l.reset()
+    rct_r.reset()
 
-    display.update()
+    pygame.display.update()
     clock.tick(FPS)
