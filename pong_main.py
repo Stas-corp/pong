@@ -87,5 +87,7 @@ while game:
     rct_r.reset()
     ball.reset()
 
+#wwww
+
     pygame.display.update()
     clock.tick(FPS)

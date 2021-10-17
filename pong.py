@@ -2,6 +2,8 @@ import pygame
 import random
 pygame.init()
 
+#Koment
+
 mw_w = 500
 mw_h = 500
 
