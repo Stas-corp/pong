@@ -2,8 +2,9 @@ import pygame
 import random
 pygame.init()
 
-mw_w = 500
-mw_h = 500
+#Koment
+
+mw_w, mw_h= 500, 500
 
 mw = pygame.display.set_mode((mw_w, mw_h))
 mw.fill((0,255,0))
@@ -67,7 +68,7 @@ class Ball(Sprite):
 
 rct_l = Rockets('rc.png', 5, 0, 16, 106)
 rct_r = Rockets('rc.png', mw_w - 20, 0, 16, 106)
-ball = Ball('ball.png', 10, 50, 26, 26, 4)
+ball = Ball('ball.png', random.randint(50, mw_w-50), random.randint(80, mw_h-80), 26, 26, random.choice( [-3,3] ))
 ball.inst_speed()
 
 ''
