@@ -11,7 +11,7 @@ clock = pygame.time.Clock()
 FPS = 60
 
 class Sprite():
-    def __init__(self, image_name, x, y, width, hight, speed = 4):
+    def __init__(self, image_name, x, y, width, hight, speed):
         self.image = pygame.transform.scale(
             pygame.image.load(image_name), (width, hight))
         self.rect = self.image.get_rect()
@@ -23,12 +23,19 @@ class Sprite():
         mw.blit(self.image, (self.rect.x, self.rect.y))
 
 class Rockets(Sprite):
+    def __init__(self, image_name, x, y, width, hight, speed = 4, test1 = 'test1', test2 = 'test2'):
+        super().__init__(image_name, x, y, width, hight, speed)
+        self.test1 = test1
+        self.test2 = test2
+        print(self)
+
     def rocket_l(self):
         key_ = pygame.key.get_pressed()
         if key_[pygame.K_w] and self.rect.y > 0:
             self.rect.y -= self.speed
         if key_[pygame.K_s] and self.rect.y < mw_h - 106:
             self.rect.y += self.speed
+            return 
 
     def rocket_r(self):
         key_ = pygame.key.get_pressed()
@@ -63,6 +70,8 @@ rct_r = Rockets('rc.png', mw_w - 20, 0, 16, 106)
 ball = Ball('ball.png', 10, 50, 26, 26, 4)
 ball.inst_speed()
 
+''
+
 def ping_pong():
     if pygame.sprite.collide_rect(rct_l, ball):
         ball.Speed_x = random.uniform(3, 5)
@@ -84,7 +93,7 @@ def ping_pong():
         '''
 
 game = True
-
+print(rct_l.test2)
 while game:
 
     for e in pygame.event.get():
