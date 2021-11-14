@@ -60,7 +60,6 @@ class Ball(Sprite):
     def move(self):
         self.rect.x += self.Speed_x
         self.rect.y += self.Speed_y
-
         if self.rect.y > mw_h - 26: 
             self.Speed_y = random.uniform(3.0, 5.5) * -1
         elif self.rect.y < 0:
